@@ -1,17 +1,29 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { User } from '@/types'
+import type { User } from '@/types'
 
-export const useUsersStore = defineStore('users', () => {
-  let users = ref<User[]>([])
+export const useUsersStore = defineStore(
+  'users',
+  () => {
+    let users = ref<User[]>([])
 
-  function addUser(user: User) {
-    users.value.push({ id: self.crypto.randomUUID(), ...user })
-  }
+    function addUser() {
+      users.value.push({
+        id: self.crypto.randomUUID(),
+        mark: '',
+        loginType: 'local',
+        login: '',
+        password: '',
+      })
+    }
 
-  function deleteUser(userId: string) {
-    users.value = users.value.filter((user) => user.id != userId)
-  }
+    function deleteUser(userId: string) {
+      users.value = users.value.filter((user) => user.id != userId)
+    }
 
-  return { users, addUser, deleteUser }
-})
+    return { users, addUser, deleteUser }
+  },
+  {
+    persist: true,
+  },
+)

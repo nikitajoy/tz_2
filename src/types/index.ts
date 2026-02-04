@@ -1,7 +1,11 @@
+export interface MarkItem {
+  text: string
+}
+
 export interface User {
   id: string
-  mark: string
+  mark: MarkItem[]
   loginType: 'ldap' | 'local'
   login: string
-  password: string
+  password: string | null
 }

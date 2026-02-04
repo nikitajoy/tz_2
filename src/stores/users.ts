@@ -5,12 +5,12 @@ import type { User } from '@/types'
 export const useUsersStore = defineStore(
   'users',
   () => {
-    let users = ref<User[]>([])
+    const users = ref<User[]>([])
 
     function addUser() {
       users.value.push({
         id: self.crypto.randomUUID(),
-        mark: '',
+        mark: [],
         loginType: 'local',
         login: '',
         password: '',
@@ -18,10 +18,17 @@ export const useUsersStore = defineStore(
     }
 
     function deleteUser(userId: string) {
-      users.value = users.value.filter((user) => user.id != userId)
+      users.value = users.value.filter((user) => user.id !== userId)
     }
 
-    return { users, addUser, deleteUser }
+    function updateUser(updatedUser: User) {
+      const index = users.value.findIndex((u) => u.id === updatedUser.id)
+      if (index !== -1) {
+        users.value[index] = updatedUser
+      }
+    }
+
+    return { users, addUser, deleteUser, updateUser }
   },
   {
     persist: true,
